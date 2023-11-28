@@ -20,7 +20,7 @@ export const ProgressBar = ({
 
     useEffect(() => {
 
-        let interval;
+        let interval: number;
         if (isActive) {
             interval = setInterval(() => {
                 setProgress(oldProgress => {
@@ -34,7 +34,7 @@ export const ProgressBar = ({
         }
 
         return () => clearInterval(interval);
-    }, [isActive])
+    }, [isActive, duration])
 
     return (
         <div className="progressbar-styled">
