@@ -5,6 +5,7 @@ interface ProgressBarProps {
     isCompleted?: boolean;
     isActive?: boolean;
     isPaused?: boolean;
+    skipCallback: () => void;
     duration?: number;
 }
 
@@ -12,6 +13,7 @@ export const ProgressBar = ({
     isCompleted,
     isActive,
     isPaused,
+    skipCallback,
     duration = 5000
 }: ProgressBarProps) => {
 
@@ -31,8 +33,8 @@ export const ProgressBar = ({
             interval = setInterval(() => {
                 setProgress(oldProgress => {
                     const newProgress = oldProgress + (50 / duration) * 100;
-                    if (newProgress >= 100) {
-                        return 100;
+                    if (newProgress == 100) {
+                        skipCallback();
                     }
                     return newProgress;
                 });
@@ -42,7 +44,7 @@ export const ProgressBar = ({
         if (!isActive) setProgress(0);
 
         return () => clearInterval(interval);
-    }, [isActive, duration, isPaused])
+    }, [isActive, duration, isPaused, progress, skipCallback]);
 
     return (
         <div className="progressbar-styled">

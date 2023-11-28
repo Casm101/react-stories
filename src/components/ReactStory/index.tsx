@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProgressBar } from '../ProgressBar';
 import './styles.scss';
 
@@ -20,23 +20,10 @@ export const ReactStory = ({
     
     const [pause, setPause] = useState(false);
     const [storyTimers, setStoryTimers] = useState<React.ReactNode[]>([]);
+    const [currentStory, setCurrrentStory] = useState<number>(0);
     const numStories = stories?.length;
 
     const mousedownId = useRef<any>();
-
-    const [currentStory, setCurrrentStory] = useState<number>(0);
-    useEffect(() => {
-        setStoryTimers(
-            Array.from({ length: numStories }).map((_, index) => (
-                <ProgressBar
-                    isCompleted={currentStory > index}
-                    isActive={currentStory === index}
-                    isPaused={pause}
-                    key={index}
-                />
-            ))
-        );
-    }, [currentStory, numStories, pause, stories])
 
     // Function to fetch previous story
     const prevStory = () => {
@@ -48,13 +35,27 @@ export const ReactStory = ({
     };
 
     // Function to fetch next story
-    const nextStory = () => {
+    const nextStory = useCallback(() => {
         setCurrrentStory(
             currentStory + 1 < numStories ?
             currentStory + 1 :
             0 
         );
-    };
+    }, [currentStory, numStories]);
+
+    useEffect(() => {
+        setStoryTimers(
+            Array.from({ length: numStories }).map((_, index) => (
+                <ProgressBar
+                    isCompleted={currentStory > index}
+                    isActive={currentStory === index}
+                    isPaused={pause}
+                    skipCallback={nextStory}
+                    key={index}
+                />
+            ))
+        );
+    }, [currentStory, numStories, pause, stories, nextStory])
 
     // Function to toggle overlay visibility (on mouse down event)
     const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
