@@ -17,6 +17,10 @@ export const ProgressBar = ({
 
     // Variable style classes
     const completedClass = isCompleted ? 'completed' : null;
+    let activeClass: string | null;
+    if (isActive) setTimeout(() => {
+        activeClass = isActive ? 'active' : null;
+    }, 50);
 
     useEffect(() => {
 
@@ -24,14 +28,16 @@ export const ProgressBar = ({
         if (isActive) {
             interval = setInterval(() => {
                 setProgress(oldProgress => {
-                    const newProgress = oldProgress + (100 / duration) * 100;
+                    const newProgress = oldProgress + (50 / duration) * 100;
                     if (newProgress >= 100) {
                         return 100;
                     }
                     return newProgress;
                 });
-            }, 100);
+            }, 50);
         }
+
+        if (!isActive) setProgress(0);
 
         return () => clearInterval(interval);
     }, [isActive, duration])
@@ -40,7 +46,7 @@ export const ProgressBar = ({
         <div className="progressbar-styled">
             <div
                 style={{ width: `${progress}%` }}
-                className={["progressbar-current", completedClass].join(' ')}
+                className={["progressbar-current", completedClass, activeClass].join(' ')}
             />
         </div>
     );

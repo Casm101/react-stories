@@ -13,10 +13,12 @@
 
         background: #fff;
 
-        transition: width .25s;
-
+        &.active {
+            transition: width .25s;
+        }
+        
         &.completed {
-            width: 100%;
+            width: 100% !important;
         }
     }
 }
