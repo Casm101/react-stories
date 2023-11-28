@@ -2,10 +2,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProgressBar } from '../ProgressBar';
 import './styles.scss';
+import { ContentRenderer } from '../ContentRenderer';
 
 
 interface TStories {
-    story: React.ReactNode;
+    type: 'image' | 'video' | 'custom';
+    story?: React.ReactNode;
+    src?: string;
     seeMore?: React.ReactNode | boolean;
 }
 
@@ -30,9 +33,9 @@ export const ReactStory = ({
     const mousedownId = useRef<any>();
 
     // Function to fetch previous story
-    const prevStory = () => {
+    const prevStory = useCallback(() => {
         setCurrrentStory(currentStory - 1 > 0 ? currentStory - 1 : 0);
-    };
+    }, [currentStory]);
 
     // Function to fetch next story
     const nextStory = useCallback(() => {
@@ -95,7 +98,10 @@ export const ReactStory = ({
 
             {/* Container that renders individual stories */}
             <div className="story-render">
-                {stories[currentStory].story}
+                <ContentRenderer
+                    isPaused={pause}
+                    {...stories[currentStory]}
+                />
             </div>
 
             {/* Story header container */}
