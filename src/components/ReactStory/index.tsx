@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef, useState } from 'react';
 import { ProgressBar } from '../ProgressBar';
 import './styles.scss';
 
@@ -12,13 +13,16 @@ interface ReactStoryProps {
     stories: TStories[];
 }
 
+
 export const ReactStory = ({
     stories
 }: ReactStoryProps) => {
     
-    const [hidden, setHidden] = useState(false);
+    const [pause, setPause] = useState(false);
     const [storyTimers, setStoryTimers] = useState<React.ReactNode[]>([]);
     const numStories = stories?.length;
+
+    const mousedownId = useRef<any>();
 
     const [currentStory, setCurrrentStory] = useState<number>(0);
     useEffect(() => {
@@ -27,11 +31,12 @@ export const ReactStory = ({
                 <ProgressBar
                     isCompleted={currentStory > index}
                     isActive={currentStory === index}
+                    isPaused={pause}
                     key={index}
                 />
             ))
         );
-    }, [currentStory, numStories, stories])
+    }, [currentStory, numStories, pause, stories])
 
     // Function to fetch previous story
     const prevStory = () => {
@@ -51,12 +56,25 @@ export const ReactStory = ({
         );
     };
 
-    // Function to toggle overlay visibility
-    // const toggleOverlayVisibility = () => {
-    //     setTimeout(() => {
-    //         setHidden(!hidden)
-    //     }, 200);
-    // };
+    // Function to toggle overlay visibility (on mouse down event)
+    const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
+        e.preventDefault();
+        mousedownId.current = setTimeout(() => {
+            setPause(true);
+        }, 200);
+    };
+
+    // Function to toggle overlay visibility (on mouse up event)
+    const mouseUpAction = (action: 'prev' | 'next') => (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      mousedownId.current && clearTimeout(mousedownId.current);
+      if (pause) {
+        setPause(false);
+      } else {
+        if (action == 'prev') prevStory();
+        if (action == 'next') nextStory();
+      }
+    };
 
     return (
         <div className="reactstory-styled">
@@ -67,7 +85,7 @@ export const ReactStory = ({
             </div>
 
             {/* Story header container */}
-            <div className={["story-header", hidden ? 'hidden' : null].join(' ')}>
+            <div className={["story-header", pause ? 'hidden' : null].join(' ')}>
                 
                 {/* Story timer container */}
                 <div className="story-timer-container">
@@ -99,12 +117,18 @@ export const ReactStory = ({
             <div className="story-controls">
                 <div
                     className="previous-story"
-                    onClick={prevStory}
-                    // onTouchStart={toggleOverlayVisibility}
-                    // onMouseDown={toggleOverlayVisibility}
-                    // onMouseUp={toggleOverlayVisibility}
+                    onTouchStart={mouseDownAction}
+                    onTouchEnd={mouseUpAction('prev')}
+                    onMouseDown={mouseDownAction}
+                    onMouseUp={mouseUpAction('prev')}
                 />
-                <div className="next-story" onClick={nextStory} />
+                <div
+                    className="next-story"
+                    onTouchStart={mouseDownAction}
+                    onTouchEnd={mouseUpAction('next')}
+                    onMouseDown={mouseDownAction}
+                    onMouseUp={mouseUpAction('next')}
+                />
             </div>
         </div>
     );

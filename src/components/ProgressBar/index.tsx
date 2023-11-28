@@ -4,12 +4,14 @@ import './styles.scss';
 interface ProgressBarProps {
     isCompleted?: boolean;
     isActive?: boolean;
+    isPaused?: boolean;
     duration?: number;
 }
 
 export const ProgressBar = ({
     isCompleted,
     isActive,
+    isPaused,
     duration = 5000
 }: ProgressBarProps) => {
 
@@ -25,7 +27,7 @@ export const ProgressBar = ({
     useEffect(() => {
 
         let interval: number;
-        if (isActive) {
+        if (isActive && !isPaused) {
             interval = setInterval(() => {
                 setProgress(oldProgress => {
                     const newProgress = oldProgress + (50 / duration) * 100;
@@ -40,7 +42,7 @@ export const ProgressBar = ({
         if (!isActive) setProgress(0);
 
         return () => clearInterval(interval);
-    }, [isActive, duration])
+    }, [isActive, duration, isPaused])
 
     return (
         <div className="progressbar-styled">
