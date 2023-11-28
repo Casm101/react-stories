@@ -1,0 +1,22 @@
+.progressbar-styled {
+    height: 2px;
+    width: 100%;
+
+    border-radius: 2px;
+
+    background: #4b4b4b;
+
+    .progressbar-current {
+        height: 100%;
+        width: 0%;
+        max-width: 100%;
+
+        background: #fff;
+
+        transition: width .25s;
+
+        &.completed {
+            width: 100%;
+        }
+    }
+}

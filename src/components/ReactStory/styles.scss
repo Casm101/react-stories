@@ -1,0 +1,88 @@
+.reactstory-styled {
+    display: flex;
+
+    position: relative;
+    
+    height: 640px;
+    width: 360px;
+
+    border-radius: .45rem;
+    overflow: hidden;
+
+    background: #272633;
+
+    .story-render {
+        display: flex;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+        
+        z-index: 10;
+
+        > * {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    // Header styling
+    .story-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        width: 100%;
+
+        transition: opacity .2s;
+        z-index: 100;
+
+        .story-timer-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-wrap: nowrap;
+            gap: 5px;
+
+            width: 100%;
+
+            padding: 7px 5px;
+        }
+
+        &.hidden {
+            opacity: 0;
+        }
+    }
+
+    .story-controls {
+        display: flex;
+        flex-direction: row;
+
+        width: 100%;
+        height: 100%;
+
+        z-index: 90;
+
+        .previous-story, .next-story {
+            height: 100%;
+            width: 50%;
+            background: #ff55a911;
+            cursor: pointer;
+            z-index: 95;
+        }
+
+        .next-story {
+            background: #9eff4611;
+        }
+    }
+}
