@@ -17,7 +17,7 @@ export const ProgressBar = ({
 
     // Variable style classes
     const completedClass = isCompleted ? 'completed' : null;
-    let activeClass: string | null;
+    let activeClass: string | null = null;
     if (isActive) setTimeout(() => {
         activeClass = isActive ? 'active' : null;
     }, 50);

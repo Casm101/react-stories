@@ -80,6 +80,7 @@
 
         width: 100%;
 
+        cursor: pointer;
         z-index: 100;
     }
 
@@ -95,13 +96,13 @@
         .previous-story, .next-story {
             height: 100%;
             width: 50%;
-            background: #ff55a911;
+            //background: #ff55a911;
             cursor: pointer;
             z-index: 95;
         }
 
         .next-story {
-            background: #9eff4611;
+            //background: #9eff4611;
         }
     }
 }
