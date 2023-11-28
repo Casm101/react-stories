@@ -3,8 +3,13 @@ import { ProgressBar } from '../ProgressBar';
 import './styles.scss';
 
 
+interface TStories {
+    story: React.ReactNode;
+    seeMore?: React.ReactNode | boolean;
+}
+
 interface ReactStoryProps {
-    stories: React.ReactNode[];
+    stories: TStories[];
 }
 
 export const ReactStory = ({
@@ -25,8 +30,8 @@ export const ReactStory = ({
                     key={index}
                 />
             ))
-        )
-    }, [currentStory, numStories])
+        );
+    }, [currentStory, numStories, stories])
 
     // Function to fetch previous story
     const prevStory = () => {
@@ -58,7 +63,7 @@ export const ReactStory = ({
 
             {/* Container that renders individual stories */}
             <div className="story-render">
-                {stories[currentStory]}
+                {stories[currentStory].story}
             </div>
 
             {/* Story header container */}
@@ -68,6 +73,26 @@ export const ReactStory = ({
                 <div className="story-timer-container">
                     {storyTimers}
                 </div>
+            </div>
+
+            {/* Story see more container */}
+            <div className="story-seemore">
+                {typeof (stories[currentStory]?.seeMore) == 'boolean' ?
+                    <>
+                        <span>⌃</span>
+                        <span>See More</span>
+                    </>
+                    :
+                    <></>
+                }
+
+                {typeof (stories[currentStory]?.seeMore) == 'object' ?
+                    <>
+                        {stories[currentStory].seeMore}
+                    </>
+                    :
+                    <></>
+                }
             </div>
 
             {/* Tap and click controls for stories */}
