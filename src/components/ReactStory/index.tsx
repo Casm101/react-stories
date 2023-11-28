@@ -11,11 +11,13 @@ interface TStories {
 
 interface ReactStoryProps {
     stories: TStories[];
+    orientation?: 'portrait' | 'landscape';
 }
 
 
 export const ReactStory = ({
-    stories
+    stories,
+    orientation = 'portrait'
 }: ReactStoryProps) => {
     
     const [pause, setPause] = useState(false);
@@ -78,7 +80,7 @@ export const ReactStory = ({
     };
 
     return (
-        <div className="reactstory-styled">
+        <div className={["reactstory-styled", orientation].join(' ')}>
 
             {/* Container that renders individual stories */}
             <div className="story-render">

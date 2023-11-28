@@ -3,13 +3,16 @@
 
     position: relative;
     
+    // Portrait orientation
     height: 640px;
     width: 360px;
 
     border-radius: .45rem;
-    overflow: hidden;
-
+    
     background: #272633;
+    
+    overflow: hidden;
+    transition: height .5s, width .5s;
 
     .story-render {
         display: flex;
@@ -104,5 +107,11 @@
         .next-story {
             //background: #9eff4611;
         }
+    }
+
+    // Ladscape orientation
+    &.landscape {
+        height: 360px;
+        width: 640px;
     }
 }
