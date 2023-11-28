@@ -53,7 +53,7 @@ export const ReactStory = ({
                 />
             ))
         );
-    }, [currentStory, numStories, pause, stories, nextStory])
+    }, [currentStory, numStories, pause, stories, nextStory]);
 
     // Function to toggle overlay visibility (on mouse down event)
     const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
@@ -74,6 +74,21 @@ export const ReactStory = ({
         if (action == 'next') nextStory();
       }
     };
+
+    // Function to handle keyboard events
+    const handleKeyboardEvent = useCallback((e: KeyboardEvent) => {
+        if (e.key === 'ArrowLeft') prevStory();
+        if (e.key === 'ArrowRight') nextStory();
+    }, [prevStory, nextStory]);
+
+    // Keyboard event listeners
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyboardEvent);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyboardEvent);
+        }
+    }, [handleKeyboardEvent]);
 
     return (
         <div className={["reactstory-styled", orientation].join(' ')}>
