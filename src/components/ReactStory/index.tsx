@@ -15,6 +15,8 @@ interface TStory {
 
 interface ReactStoryProps {
     stories: TStory[];
+    height?: string;
+    width?: string;
     loop?: boolean;
     orientation?: 'portrait' | 'landscape';
     defaultDuration?: number;
@@ -26,6 +28,8 @@ export const ReactStory = ({
     loop = false,
     orientation = 'portrait',
     defaultDuration = 5000,
+    height,
+    width
 }: ReactStoryProps) => {
     
     const [pause, setPause] = useState(false);
@@ -99,7 +103,13 @@ export const ReactStory = ({
     }, [handleKeyboardEvent]);
 
     return (
-        <div className={["reactstory-styled", orientation].join(' ')}>
+        <div
+            className={["reactstory-styled", orientation].join(' ')}
+            style={{
+                height: height ? height : '640px',
+                width: width ? width : '360px'
+            }}
+        >
 
             {/* Container that renders individual stories */}
             <div className="story-render">
