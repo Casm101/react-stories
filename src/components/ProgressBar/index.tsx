@@ -6,7 +6,8 @@ interface ProgressBarProps {
     isActive?: boolean;
     isPaused?: boolean;
     skipCallback: () => void;
-    duration?: number;
+    duration: number;
+    customDuration?: number;
 }
 
 export const ProgressBar = ({
@@ -14,10 +15,12 @@ export const ProgressBar = ({
     isActive,
     isPaused,
     skipCallback,
-    duration = 5000
+    duration,
+    customDuration
 }: ProgressBarProps) => {
 
     const [progress, setProgress] = useState(0);
+    const finalDuration = customDuration || duration;
 
     // Variable style classes
     const completedClass = isCompleted ? 'completed' : null;
@@ -32,8 +35,8 @@ export const ProgressBar = ({
         if (isActive && !isPaused) {
             interval = setInterval(() => {
                 setProgress(oldProgress => {
-                    const newProgress = oldProgress + (50 / duration) * 100;
-                    if (newProgress == 100) {
+                    const newProgress = oldProgress + (50 / finalDuration) * 100;
+                    if (newProgress >= 100) {
                         skipCallback();
                     }
                     return newProgress;
@@ -44,7 +47,7 @@ export const ProgressBar = ({
         if (!isActive) setProgress(0);
 
         return () => clearInterval(interval);
-    }, [isActive, duration, isPaused, progress, skipCallback]);
+    }, [isActive, duration, isPaused, progress, skipCallback, finalDuration]);
 
     return (
         <div className="progressbar-styled">

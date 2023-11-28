@@ -20,6 +20,7 @@ function App() {
             },
             {
               type: 'video',
+              storyDuration: 30000,
               src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
             },
             {

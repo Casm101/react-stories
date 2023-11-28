@@ -1,28 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { ContentRenderer } from '../ContentRenderer';
 import { ProgressBar } from '../ProgressBar';
 import './styles.scss';
-import { ContentRenderer } from '../ContentRenderer';
 
 
-interface TStories {
+interface TStory {
     type: 'image' | 'video' | 'custom';
     story?: React.ReactNode;
     src?: string;
     seeMore?: React.ReactNode | boolean;
+    storyDuration?: number;
 }
 
 interface ReactStoryProps {
-    stories: TStories[];
+    stories: TStory[];
     loop?: boolean;
     orientation?: 'portrait' | 'landscape';
+    defaultDuration?: number;
 }
 
 
 export const ReactStory = ({
     stories,
     loop = false,
-    orientation = 'portrait'
+    orientation = 'portrait',
+    defaultDuration = 5000,
 }: ReactStoryProps) => {
     
     const [pause, setPause] = useState(false);
@@ -52,11 +55,13 @@ export const ReactStory = ({
                     isActive={currentStory === index}
                     isPaused={pause}
                     skipCallback={nextStory}
+                    duration={defaultDuration}
+                    customDuration={stories[index].storyDuration}
                     key={index}
                 />
             ))
         );
-    }, [currentStory, numStories, pause, stories, nextStory]);
+    }, [currentStory, numStories, pause, stories, nextStory, defaultDuration]);
 
     // Function to toggle overlay visibility (on mouse down event)
     const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
