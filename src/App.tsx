@@ -7,6 +7,7 @@ function App() {
     <>
       <main>
         <ReactStory
+          loop={true}
           stories={[
             {
               story: <img src="https://i.pinimg.com/originals/70/c6/24/70c624afe5720a3a4a14b3e143cca4ba.jpg" />,

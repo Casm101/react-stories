@@ -11,12 +11,14 @@ interface TStories {
 
 interface ReactStoryProps {
     stories: TStories[];
+    loop?: boolean;
     orientation?: 'portrait' | 'landscape';
 }
 
 
 export const ReactStory = ({
     stories,
+    loop = false,
     orientation = 'portrait'
 }: ReactStoryProps) => {
     
@@ -29,21 +31,15 @@ export const ReactStory = ({
 
     // Function to fetch previous story
     const prevStory = () => {
-        setCurrrentStory(
-            currentStory - 1 > 0 ?
-            currentStory - 1 :
-            0    
-        );
+        setCurrrentStory(currentStory - 1 > 0 ? currentStory - 1 : 0);
     };
 
     // Function to fetch next story
     const nextStory = useCallback(() => {
-        setCurrrentStory(
-            currentStory + 1 < numStories ?
-            currentStory + 1 :
-            0 
-        );
-    }, [currentStory, numStories]);
+        const nextStoryIndex = currentStory + 1;
+        if (nextStoryIndex < numStories) setCurrrentStory(nextStoryIndex);
+        else if (loop) setCurrrentStory(0);
+    }, [currentStory, numStories, loop]);
 
     useEffect(() => {
         setStoryTimers(
