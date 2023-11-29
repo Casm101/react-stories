@@ -20,7 +20,6 @@ interface ReactStoryProps {
     height?: string;
     width?: string;
     loop?: boolean;
-    orientation?: 'portrait' | 'landscape';
     defaultDuration?: number;
     preloadedAssets?: number;
 }
@@ -29,7 +28,6 @@ interface ReactStoryProps {
 export const ReactStory = ({
     stories,
     loop = false,
-    orientation = 'portrait',
     defaultDuration = 5000,
     height,
     width,
@@ -132,7 +130,7 @@ export const ReactStory = ({
 
     return (
         <div
-            className={["reactstory-styled", orientation].join(' ')}
+            className={["reactstory-styled"].join(' ')}
             style={{
                 height: height ? height : '640px',
                 width: width ? width : '360px'

@@ -2,10 +2,6 @@
     display: flex;
 
     position: relative;
-    
-    // Portrait orientation
-    height: 640px;
-    width: 360px;
 
     border-radius: .45rem;
     
@@ -121,11 +117,5 @@
         // .next-story {
         //     //background: #9eff4611;
         // }
-    }
-
-    // Ladscape orientation
-    &.landscape {
-        height: 360px;
-        width: 640px;
     }
 }
