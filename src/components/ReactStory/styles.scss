@@ -58,8 +58,22 @@
             gap: 5px;
 
             width: 100%;
-
             padding: 7px 5px;
+        }
+
+        .story-user-controls {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: .5rem;
+
+            width: 100%;
+            padding: 7px .75rem;
+
+            span svg {
+                height: 1.5rem;
+                width: 1.5rem;
+            }
         }
 
         &.hidden {

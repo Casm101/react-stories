@@ -5,6 +5,7 @@ interface ContentRendererProps {
     story?: React.ReactNode;
     src?: string;
     isPaused: boolean;
+    isMuted: boolean;
 }
 
 
@@ -12,8 +13,9 @@ export const ContentRenderer = ({
     type = 'image',
     story,
     src,
-    isPaused
-}: ContentRendererProps) => {
+    isPaused,
+    isMuted
+}: ContentRendererProps) => {    
 
     // Feature to pause video on story pause
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -34,6 +36,7 @@ export const ContentRenderer = ({
             src={src}
             autoPlay
             playsInline
+            muted={isMuted}
         />
     );
 
