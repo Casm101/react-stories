@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContentRenderer } from '../ContentRenderer';
 import { ProgressBar } from '../ProgressBar';
 import './styles.scss';
+import useImagePreloader from '../../hooks/useImagePreloader';
 
 
 interface TStory {
@@ -20,6 +22,7 @@ interface ReactStoryProps {
     loop?: boolean;
     orientation?: 'portrait' | 'landscape';
     defaultDuration?: number;
+    preloadedAssets?: number;
 }
 
 
@@ -29,15 +32,19 @@ export const ReactStory = ({
     orientation = 'portrait',
     defaultDuration = 5000,
     height,
-    width
+    width,
+    preloadedAssets = 2
 }: ReactStoryProps) => {
     
     const [pause, setPause] = useState(false);
     const [storyTimers, setStoryTimers] = useState<React.ReactNode[]>([]);
     const [currentStory, setCurrrentStory] = useState<number>(0);
+    const [nextToPreload, setNextToPreload] = useState<string[]>([]);
     const numStories = stories?.length;
 
     const mousedownId = useRef<any>();
+
+    useImagePreloader(nextToPreload);
 
     // Function to fetch previous story
     const prevStory = useCallback(() => {
@@ -101,6 +108,16 @@ export const ReactStory = ({
             window.removeEventListener('keydown', handleKeyboardEvent);
         }
     }, [handleKeyboardEvent]);
+
+    // Manage asset preloading
+    useEffect(() => {
+        if (preloadedAssets > 0) {
+            setNextToPreload(stories.slice(currentStory, currentStory + preloadedAssets).map(story => {
+                if (story.type === 'image' && story.src) return story.src;
+                return '';
+            }))
+        }
+    }, [currentStory]);
 
     return (
         <div
