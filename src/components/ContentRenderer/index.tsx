@@ -1,21 +1,20 @@
 import { useEffect, useRef } from "react";
 
-interface ContentRendererProps {
-    type: 'image' | 'video' | 'custom';
-    story?: () => React.ReactNode;
-    src?: string;
-    isPaused: boolean;
-    isMuted: boolean;
-}
+// Type imports
+import { TStoryCustom, TStoryMedia } from "../../types";
+
+type ContentRendererProps = (TStoryMedia | TStoryCustom) & {
+    isPaused: boolean,
+    isMuted: boolean
+};
 
 
-export const ContentRenderer = ({
+export const ContentRenderer: React.FC<ContentRendererProps> = ({
     type = 'image',
-    story,
-    src,
     isPaused,
-    isMuted
-}: ContentRendererProps) => {    
+    isMuted,
+    ...props
+}) => {    
 
     // Feature to pause video on story pause
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -25,21 +24,33 @@ export const ContentRenderer = ({
     }, [isPaused]);
 
     // Render image type
-    if (type === 'image') return (
-        <img src={src} alt="" />
-    );
+    if (type === 'image') {
+        const { src } = props as TStoryMedia;
+        return (
+            <img src={src} alt="" />
+        );
+    }
 
     // Render video type
-    if (type === 'video') return (
-        <video
-            ref={videoRef}
-            src={src}
-            autoPlay
-            playsInline
-            muted={isMuted}
-        />
-    );
+    if (type === 'video') {
+        const { src } = props as TStoryMedia;
+        return (
+            <video
+                ref={videoRef}
+                src={src}
+                autoPlay
+                playsInline
+                muted={isMuted}
+            />
+        );
+    }
 
     // Render custom story type
-    if (type === 'custom' && story) return story();
+    if (type === 'custom') {
+        const { story } = props as TStoryCustom;
+        return <>{story(isMuted, isPaused)}</>;
+    }
+
+    // Return null if no criteria is met
+    return null;
 }

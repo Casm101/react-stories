@@ -1,28 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Component imports
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContentRenderer } from '../ContentRenderer';
 import { ProgressBar } from '../ProgressBar';
+
+// Style imports
 import './styles.scss';
+
+// Hook imports
 import useImagePreloader from '../../hooks/useImagePreloader';
 
+// Type imports
+import { TStoryMedia, TStoryCustom } from '../../types';
 
-interface TStory {
-    type: 'image' | 'video' | 'custom';
-    story?: () => React.ReactNode;
-    src?: string;
-    seeMore?: React.ReactNode | boolean;
-    storyDuration?: number;
-}
 
-interface ReactStoryProps {
-    stories: TStory[];
+type ReactStoryProps = {
+    stories: (TStoryMedia | TStoryCustom)[];
     height?: string;
     width?: string;
     loop?: boolean;
     defaultDuration?: number;
     preloadedAssets?: number;
-}
+};
 
 
 export const ReactStory = ({
@@ -41,7 +41,7 @@ export const ReactStory = ({
     const [nextToPreload, setNextToPreload] = useState<string[]>([]);
     const numStories = stories?.length;
 
-    const mousedownId = useRef<any>();
+    const mousedownId = useRef<number>();
 
     
     // Function to toggle muted state
