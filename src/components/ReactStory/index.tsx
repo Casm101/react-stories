@@ -9,7 +9,7 @@ import useImagePreloader from '../../hooks/useImagePreloader';
 
 interface TStory {
     type: 'image' | 'video' | 'custom';
-    story?: React.ReactNode;
+    story?: () => React.ReactNode;
     src?: string;
     seeMore?: React.ReactNode | boolean;
     storyDuration?: number;

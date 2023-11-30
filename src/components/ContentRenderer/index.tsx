@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 interface ContentRendererProps {
     type: 'image' | 'video' | 'custom';
-    story?: React.ReactNode;
+    story?: () => React.ReactNode;
     src?: string;
     isPaused: boolean;
     isMuted: boolean;
@@ -41,5 +41,5 @@ export const ContentRenderer = ({
     );
 
     // Render custom story type
-    if (type === 'custom') return story;
+    if (type === 'custom' && story) return story();
 }

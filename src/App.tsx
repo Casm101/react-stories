@@ -10,6 +10,17 @@ function App() {
           <ReactStory
             loop={true}
             stories={[
+            {
+                type: 'custom',
+                seeMore: <p>Custom see more component →</p>,
+                story: () => (
+                  <div className='custom-story'>
+                    <p className="emoji">🔥</p>
+                    <p className='subtitle'>We support it all!</p>
+                    <p className='title'>Stories to your heart's desire, from images and videos, to fully blown React components.</p>
+                  </div>
+                )
+              },
               {
                 type: 'image',
                 seeMore: true,
@@ -21,7 +32,7 @@ function App() {
               },
               {
                 type: 'video',
-                storyDuration: 30000,
+                storyDuration: 15000,
                 src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
               },
               {
