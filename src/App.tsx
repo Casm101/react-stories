@@ -64,6 +64,8 @@ function App() {
             <p>Click / Tap and hold to pause</p>
             <br />
             <p>Arrows on keyboard also work</p>
+            <p>Space to toggle pause</p>
+            <p>M to toggle mute</p>
           </div>
         </section>
       </main>

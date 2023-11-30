@@ -106,6 +106,8 @@ export const ReactStory = ({
     const handleKeyboardEvent = useCallback((e: KeyboardEvent) => {
         if (e.key === 'ArrowLeft') prevStory();
         if (e.key === 'ArrowRight') nextStory();
+        if (e.code === 'Space') togglePaused();
+        if (e.key === 'm') toggleMuted();
     }, [prevStory, nextStory]);
 
     // Keyboard event listeners
