@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactStory } from '.';
 import './global.scss';
 
@@ -50,7 +51,21 @@ function App() {
                 action: () => console.log('This is a custom see more action')
               },
               src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F25%2Ff2%2F99%2F25f2995b7b58b3fff8a1288bd93b3f69.jpg&f=1&nofb=1&ipt=355ed0aa1d669d7317e2ddd8fc416366195c1ed20e43374fc3f9748e9a69ae4b&ipo=images"
-            }
+            },
+            {
+              type: 'custom',
+              seeMore: {
+                type: 'standard',
+                action: () => console.log('This is a standard see more action')
+              },
+              story: (isMuted?: boolean, isPaused?: boolean) => (
+                <div className='custom-story interactive'>
+                  <p className='states'>{ isPaused ? '> Paused' : '> Playing' }</p>
+                  <p className='states'>{ isMuted ? '> Muted' : '> Playing Sound' }</p>
+                  <p className='title'>Full access to paused and muted states for your custom components.</p>
+                </div>
+              )
+            },
           ]}
         />
         </section>

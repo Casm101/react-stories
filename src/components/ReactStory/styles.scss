@@ -44,6 +44,14 @@
             .emoji {
                 font-size: 2.5rem;
             }
+
+            .states {
+                font-size: 1.5rem;
+            }
+
+            &.interactive {
+                background: #f7dceb;
+            }
         }
     }
 
@@ -63,6 +71,8 @@
 
         transition: opacity .2s;
         z-index: 100;
+
+        filter: drop-shadow(#000 0px 1px 10px);
 
         .story-timer-container {
             display: flex;
@@ -111,7 +121,9 @@
         cursor: pointer;
         z-index: 100;
 
-        .seemore-wrapper{
+        filter: drop-shadow(#000 0px 1px 20px);
+
+        .seemore-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -131,13 +143,8 @@
         .previous-story, .next-story {
             height: 100%;
             width: 50%;
-            //background: #ff55a911;
             cursor: pointer;
             z-index: 95;
         }
-
-        // .next-story {
-        //     //background: #9eff4611;
-        // }
     }
 }
