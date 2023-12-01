@@ -10,6 +10,7 @@ import './styles.scss';
 
 // Hook imports
 import useImagePreloader from '../../hooks/useImagePreloader';
+import useVideoPreloader from '../../hooks/useVideoPreloader';
 
 // Type imports
 import { TStoryMedia, TStoryCustom, TSeeMoreCustom } from '../../types';
@@ -38,7 +39,8 @@ export const ReactStory = ({
     const [isMuted, setMuted] = useState<boolean>(false);
     const [storyTimers, setStoryTimers] = useState<React.ReactNode[]>([]);
     const [currentStory, setCurrrentStory] = useState<number>(0);
-    const [nextToPreload, setNextToPreload] = useState<string[]>([]);
+    const [imagesPreload, setImagesPreload] = useState<string[]>([]);
+    const [videosPreload, setVideosPreload] = useState<string[]>([]);
     const numStories = stories?.length;
 
     const mousedownId = useRef<number>();
@@ -127,13 +129,18 @@ export const ReactStory = ({
     }, [handleKeyboardEvent]);
 
     // Manage asset preloading
-    useImagePreloader(nextToPreload);
+    useImagePreloader(imagesPreload);
+    useVideoPreloader(videosPreload);
     useEffect(() => {
         if (preloadedAssets > 0) {
-            setNextToPreload(stories.slice(currentStory, currentStory + preloadedAssets).map(story => {
-                if (story.type === 'image' && story.src) return story.src;
+            setImagesPreload(stories.slice(currentStory, currentStory + preloadedAssets).map(story => {
+                if (story.type === 'image') return story.src;
                 return '';
-            }))
+            }));
+            setVideosPreload(stories.slice(currentStory, currentStory + preloadedAssets).map(story => {
+                if (story.type === 'video') return story.src;
+                return '';
+            }));
         }
     }, [currentStory]);
 
