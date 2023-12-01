@@ -3,6 +3,74 @@ import { ReactStory } from '.';
 import './global.scss';
 
 function App() {
+
+  if (window.screen.width < 456) return (
+    <main>
+      <ReactStory
+        loop={true}
+        height='100dvh'
+        width='100dvw'
+        stories={[
+          {
+            type: 'custom',
+            seeMore: {
+              type: 'custom',
+              content: <p>Custom see more component →</p>,
+              action: () => console.log('This is a custom see more action')
+            },
+            story: () => (
+              <div className='custom-story'>
+                <p className="emoji">🔥</p>
+                <p className='subtitle'>We support it all!</p>
+                <p className='title'>Stories to your heart's desire, from images and videos, to fully blown React components.</p>
+              </div>
+            )
+          },
+          {
+            type: 'image',
+            seeMore: {
+              type: 'standard',
+              action: () => console.log('This is a standard see more action')
+            },
+            src: 'https://i.pinimg.com/originals/70/c6/24/70c624afe5720a3a4a14b3e143cca4ba.jpg'
+          },
+          {
+            type: 'image',
+            src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic-cse.canva.com%2Fimage%2F129252%2FSelfPortraitsTechniques2.jpg&f=1&nofb=1&ipt=2b179d39ef2022ef0a8c39d948296aa08e159804dfaabca6cd07bc751d2dc979&ipo=images"
+          },
+          {
+            type: 'video',
+            storyDuration: 15000,
+            src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          },
+          {
+            type: 'image',
+            seeMore: {
+              type: 'custom',
+              content: <p>Custom see more component →</p>,
+              action: () => console.log('This is a custom see more action')
+            },
+            src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F25%2Ff2%2F99%2F25f2995b7b58b3fff8a1288bd93b3f69.jpg&f=1&nofb=1&ipt=355ed0aa1d669d7317e2ddd8fc416366195c1ed20e43374fc3f9748e9a69ae4b&ipo=images"
+          },
+          {
+            type: 'custom',
+            seeMore: {
+              type: 'standard',
+              action: () => console.log('This is a standard see more action')
+            },
+            story: (isMuted?: boolean, isPaused?: boolean) => (
+              <div className='custom-story interactive'>
+                <p className='states'>{ isPaused ? '> Paused' : '> Playing' }</p>
+                <p className='states'>{ isMuted ? '> Muted' : '> Playing Sound' }</p>
+                <p className='title'>Full access to paused and muted states for your custom components.</p>
+              </div>
+            )
+          },
+        ]}
+      />
+    </main>
+  );
+
   
   return (
     <>
@@ -11,63 +79,63 @@ function App() {
           <ReactStory
             loop={true}
             stories={[
-            {
-              type: 'custom',
-              seeMore: {
+              {
                 type: 'custom',
-                content: <p>Custom see more component →</p>,
-                action: () => console.log('This is a custom see more action')
+                seeMore: {
+                  type: 'custom',
+                  content: <p>Custom see more component →</p>,
+                  action: () => console.log('This is a custom see more action')
+                },
+                story: () => (
+                  <div className='custom-story'>
+                    <p className="emoji">🔥</p>
+                    <p className='subtitle'>We support it all!</p>
+                    <p className='title'>Stories to your heart's desire, from images and videos, to fully blown React components.</p>
+                  </div>
+                )
               },
-              story: () => (
-                <div className='custom-story'>
-                  <p className="emoji">🔥</p>
-                  <p className='subtitle'>We support it all!</p>
-                  <p className='title'>Stories to your heart's desire, from images and videos, to fully blown React components.</p>
-                </div>
-              )
-            },
-            {
-              type: 'image',
-              seeMore: {
-                type: 'standard',
-                action: () => console.log('This is a standard see more action')
+              {
+                type: 'image',
+                seeMore: {
+                  type: 'standard',
+                  action: () => console.log('This is a standard see more action')
+                },
+                src: 'https://i.pinimg.com/originals/70/c6/24/70c624afe5720a3a4a14b3e143cca4ba.jpg'
               },
-              src: 'https://i.pinimg.com/originals/70/c6/24/70c624afe5720a3a4a14b3e143cca4ba.jpg'
-            },
-            {
-              type: 'image',
-              src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic-cse.canva.com%2Fimage%2F129252%2FSelfPortraitsTechniques2.jpg&f=1&nofb=1&ipt=2b179d39ef2022ef0a8c39d948296aa08e159804dfaabca6cd07bc751d2dc979&ipo=images"
-            },
-            {
-              type: 'video',
-              storyDuration: 15000,
-              src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            },
-            {
-              type: 'image',
-              seeMore: {
+              {
+                type: 'image',
+                src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic-cse.canva.com%2Fimage%2F129252%2FSelfPortraitsTechniques2.jpg&f=1&nofb=1&ipt=2b179d39ef2022ef0a8c39d948296aa08e159804dfaabca6cd07bc751d2dc979&ipo=images"
+              },
+              {
+                type: 'video',
+                storyDuration: 15000,
+                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              },
+              {
+                type: 'image',
+                seeMore: {
+                  type: 'custom',
+                  content: <p>Custom see more component →</p>,
+                  action: () => console.log('This is a custom see more action')
+                },
+                src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F25%2Ff2%2F99%2F25f2995b7b58b3fff8a1288bd93b3f69.jpg&f=1&nofb=1&ipt=355ed0aa1d669d7317e2ddd8fc416366195c1ed20e43374fc3f9748e9a69ae4b&ipo=images"
+              },
+              {
                 type: 'custom',
-                content: <p>Custom see more component →</p>,
-                action: () => console.log('This is a custom see more action')
+                seeMore: {
+                  type: 'standard',
+                  action: () => console.log('This is a standard see more action')
+                },
+                story: (isMuted?: boolean, isPaused?: boolean) => (
+                  <div className='custom-story interactive'>
+                    <p className='states'>{ isPaused ? '> Paused' : '> Playing' }</p>
+                    <p className='states'>{ isMuted ? '> Muted' : '> Playing Sound' }</p>
+                    <p className='title'>Full access to paused and muted states for your custom components.</p>
+                  </div>
+                )
               },
-              src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F25%2Ff2%2F99%2F25f2995b7b58b3fff8a1288bd93b3f69.jpg&f=1&nofb=1&ipt=355ed0aa1d669d7317e2ddd8fc416366195c1ed20e43374fc3f9748e9a69ae4b&ipo=images"
-            },
-            {
-              type: 'custom',
-              seeMore: {
-                type: 'standard',
-                action: () => console.log('This is a standard see more action')
-              },
-              story: (isMuted?: boolean, isPaused?: boolean) => (
-                <div className='custom-story interactive'>
-                  <p className='states'>{ isPaused ? '> Paused' : '> Playing' }</p>
-                  <p className='states'>{ isMuted ? '> Muted' : '> Playing Sound' }</p>
-                  <p className='title'>Full access to paused and muted states for your custom components.</p>
-                </div>
-              )
-            },
-          ]}
-        />
+            ]}
+          />
         </section>
         <section>
           <h1>React Stories</h1>
@@ -83,15 +151,26 @@ function App() {
             npm i --save react-stories
           </code>
 
-          <p>Prepaired for both mobile and desktop</p>
-          <div className='block'>
-            <p>Click / Tap left for previous</p>
-            <p>Click / Tap right for next</p>
-            <p>Click / Tap and hold to pause</p>
-            <br />
-            <p>Arrows on keyboard also work</p>
-            <p>Space to toggle pause</p>
-            <p>M to toggle mute</p>
+          <div style={{ display: 'flex', gap: '4rem'}}>
+            <div>
+              <p style={{ marginBottom: '1rem' }}>Prepaired for both mobile and desktop</p>
+              <div className='block'>
+                <p>Click / Tap left for previous</p>
+                <p>Click / Tap right for next</p>
+                <p>Click / Tap and hold to pause</p>
+                <br />
+                <p>Arrows on keyboard also work</p>
+                <p>Space to toggle pause</p>
+                <p>M to toggle mute</p>
+              </div>
+            </div>
+
+            <div>
+              <p style={{ marginBottom: '1rem' }}>Scan to test on mobile</p>
+              <div>
+                <img src="./qr-code.svg" alt="QRCode linking to github pages" style={{ width: '200px', borderRadius: '.5rem' }} />
+              </div>
+            </div>
           </div>
         </section>
       </main>

@@ -12,7 +12,7 @@ import './styles.scss';
 import useImagePreloader from '../../hooks/useImagePreloader';
 
 // Type imports
-import { TStoryMedia, TStoryCustom } from '../../types';
+import { TStoryMedia, TStoryCustom, TSeeMoreCustom } from '../../types';
 
 
 type ReactStoryProps = {
@@ -189,7 +189,7 @@ export const ReactStory = ({
 
                     {stories[currentStory]?.seeMore?.type === 'custom' &&
                         <>
-                            {stories[currentStory]?.seeMore?.content}
+                            {(stories[currentStory]?.seeMore as TSeeMoreCustom)?.content}
                         </>
                     }
                 </div>

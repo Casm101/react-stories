@@ -1,12 +1,14 @@
 type TStory = {
-    seeMore?: TSeeMore,
+    seeMore?: (TSeeMoreStandard | TSeeMoreCustom),
     storyDuration?: number,
 };
 
-type TSeeMore = {
+export type TSeeMoreStandard = {
     type: 'standard',
     action: () => void
-} | {
+}
+
+export type TSeeMoreCustom = {
     type: 'custom',
     content: React.ReactNode | Element,
     action: () => void

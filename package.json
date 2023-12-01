@@ -13,6 +13,7 @@
     "publish:public": "npm publish --access public"
   },
   "dependencies": {
+    "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.69.5"
