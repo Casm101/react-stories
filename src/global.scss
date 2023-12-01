@@ -1,4 +1,6 @@
-*, html, body {
+*,
+html,
+body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -14,8 +16,8 @@ main {
   justify-content: center;
   gap: 10rem;
 
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
 
   background-color: #0f0f0f;
   color: #fff;
@@ -39,7 +41,8 @@ h1 {
   font-size: 2rem;
 }
 
-code, .block {
+code,
+.block {
   font-size: 1.1srem;
   background: #1b1b22;
   padding: .5rem;

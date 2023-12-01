@@ -2,7 +2,7 @@
   "name": "@casm101/react-stories",
   "description": "Simple and dynamic Metainspired story component in React!",
   "private": false,
-  "version": "0.0.2-alpha",
+  "version": "0.0.1-beta",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
