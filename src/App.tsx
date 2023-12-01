@@ -12,7 +12,11 @@ function App() {
             stories={[
             {
               type: 'custom',
-              seeMore: <p>Custom see more component →</p>,
+              seeMore: {
+                type: 'custom',
+                content: <p>Custom see more component →</p>,
+                action: () => console.log('This is a custom see more action')
+              },
               story: () => (
                 <div className='custom-story'>
                   <p className="emoji">🔥</p>
@@ -23,7 +27,10 @@ function App() {
             },
             {
               type: 'image',
-              seeMore: true,
+              seeMore: {
+                type: 'standard',
+                action: () => console.log('This is a standard see more action')
+              },
               src: 'https://i.pinimg.com/originals/70/c6/24/70c624afe5720a3a4a14b3e143cca4ba.jpg'
             },
             {
@@ -37,7 +44,11 @@ function App() {
             },
             {
               type: 'image',
-              seeMore: <p>Custom see more component →</p>,
+              seeMore: {
+                type: 'custom',
+                content: <p>Custom see more component →</p>,
+                action: () => console.log('This is a custom see more action')
+              },
               src: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F25%2Ff2%2F99%2F25f2995b7b58b3fff8a1288bd93b3f69.jpg&f=1&nofb=1&ipt=355ed0aa1d669d7317e2ddd8fc416366195c1ed20e43374fc3f9748e9a69ae4b&ipo=images"
             }
           ]}

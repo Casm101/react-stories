@@ -104,8 +104,15 @@ export const ReactStory = ({
 
     // Function to handle keyboard events
     const handleKeyboardEvent = useCallback((e: KeyboardEvent) => {
-        if (e.key === 'ArrowLeft') prevStory();
-        if (e.key === 'ArrowRight') nextStory();
+        if (e.key === 'ArrowLeft') {
+            prevStory();
+            setPause(false);
+        }
+        if (e.key === 'ArrowRight') {
+            nextStory();
+            setPause(false);
+        }
+        if (e.key === 'ArrowUp') stories[currentStory]?.seeMore?.action()
         if (e.code === 'Space') togglePaused();
         if (e.key === 'm') toggleMuted();
     }, [prevStory, nextStory]);
@@ -172,22 +179,20 @@ export const ReactStory = ({
 
             {/* Story see more container */}
             <div className="story-seemore">
-                {typeof (stories[currentStory]?.seeMore) == 'boolean' ?
-                    <>
-                        <span>⌃</span>
-                        <span>See More</span>
-                    </>
-                    :
-                    <></>
-                }
+                <div className='seemore-wrapper' onClick={stories[currentStory]?.seeMore?.action}>
+                    {stories[currentStory]?.seeMore?.type === 'standard' &&
+                        <>
+                            <span>⌃</span>
+                            <span>See More</span>    
+                        </>
+                    }
 
-                {typeof (stories[currentStory]?.seeMore) == 'object' ?
-                    <>
-                        {stories[currentStory].seeMore}
-                    </>
-                    :
-                    <></>
-                }
+                    {stories[currentStory]?.seeMore?.type === 'custom' &&
+                        <>
+                            {stories[currentStory]?.seeMore?.content}
+                        </>
+                    }
+                </div>
             </div>
 
             {/* Tap and click controls for stories */}

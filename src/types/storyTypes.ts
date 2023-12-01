@@ -1,6 +1,15 @@
 type TStory = {
-    seeMore?: React.ReactNode | Element | boolean,
+    seeMore?: TSeeMore,
     storyDuration?: number,
+};
+
+type TSeeMore = {
+    type: 'standard',
+    action: () => void
+} | {
+    type: 'custom',
+    content: React.ReactNode | Element,
+    action: () => void
 };
 
 export type TStoryContent = (
