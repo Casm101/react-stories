@@ -24,3 +24,5 @@ jobs:
 
             - name: Run Deploy
               run: npm run deploy
+              env:
+                  DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
