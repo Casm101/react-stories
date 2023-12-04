@@ -1,11 +1,13 @@
-import { useEffect, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 
 // Type imports
 import { TStoryCustom, TStoryMedia } from "../../types";
 
 type ContentRendererProps = (TStoryMedia | TStoryCustom) & {
     isPaused: boolean,
-    isMuted: boolean
+    isMuted: boolean,
+    videoRef: React.RefObject<HTMLVideoElement> | null
 };
 
 
@@ -13,14 +15,14 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
     type = 'image',
     isPaused,
     isMuted,
+    videoRef,
     ...props
-}) => {    
+}) => {
 
     // Feature to pause video on story pause
-    const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
-        if (isPaused && videoRef.current) videoRef.current.pause();
-        if (!isPaused && videoRef.current) videoRef.current.play();
+        if (isPaused && videoRef && videoRef.current) videoRef.current.pause();
+        if (!isPaused && videoRef && videoRef.current) videoRef.current.play();
     }, [isPaused]);
 
     // Render image type

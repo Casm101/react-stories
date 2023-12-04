@@ -40,16 +40,39 @@ export const ReactStory = ({
     preloadedAssets = 2
 }: ReactStoryProps) => {
 
+    // Declaration of local states
     const [pause, setPause] = useState<boolean>(false);
     const [isMuted, setMuted] = useState<boolean>(false);
     const [storyTimers, setStoryTimers] = useState<React.ReactNode[]>([]);
     const [currentStory, setCurrrentStory] = useState<number>(0);
     const [imagesPreload, setImagesPreload] = useState<string[]>([]);
     const [videosPreload, setVideosPreload] = useState<string[]>([]);
+    const [videoDuration, setVideoDuration] = useState<number>(0);
     const numStories = stories?.length;
 
+    // Declaration of local refrences
     const mousedownId = useRef<number>();
+    const videoRef = useRef<HTMLVideoElement | null>(null);
 
+
+    // Retrieve current video duration
+    useEffect(() => {
+
+        const handleVideoLoaded = () => {
+            if (stories[currentStory].type === 'video' && videoRef.current) setVideoDuration(videoRef.current.duration * 1000);
+        };
+
+        const videoElement = videoRef.current;
+        if (videoElement) {
+            videoElement.addEventListener('loadedmetadata', handleVideoLoaded);
+        }
+
+        return () => {
+            if (videoElement) {
+                videoElement.removeEventListener('loadedmetadata', handleVideoLoaded);
+            }
+        };
+    }, [currentStory]);
 
     // Function to toggle muted state
     const toggleMuted = () => {
@@ -59,7 +82,7 @@ export const ReactStory = ({
     // Function to toggle paused state
     const togglePaused = () => {
         setPause(current => !current);
-    }
+    };
 
     // Function to fetch previous story
     const prevStory = useCallback(() => {
@@ -82,12 +105,12 @@ export const ReactStory = ({
                     isPaused={pause}
                     skipCallback={nextStory}
                     duration={defaultDuration}
-                    customDuration={stories[index].storyDuration}
+                    customDuration={stories[index].type === 'video' ? videoDuration : stories[index].storyDuration}
                     key={index}
                 />
             ))
         );
-    }, [currentStory, numStories, pause, stories, nextStory, defaultDuration]);
+    }, [currentStory, numStories, pause, stories, nextStory, defaultDuration, videoDuration]);
 
     // Function to toggle overlay visibility (on mouse down event)
     const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
@@ -163,6 +186,7 @@ export const ReactStory = ({
                 <ContentRenderer
                     isPaused={pause}
                     isMuted={isMuted}
+                    videoRef={videoRef}
                     {...stories[currentStory]}
                 />
             </div>
