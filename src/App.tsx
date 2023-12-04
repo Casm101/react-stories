@@ -20,7 +20,7 @@ function App() {
             seeMore: {
               type: 'custom',
               content: <p>Custom see more component →</p>,
-              action: () => console.log('This is a custom see more action')
+              action: () => alert('This is a custom see more action')
             },
             story: () => (
               <div className='custom-story'>

@@ -54,6 +54,7 @@ export const ReactStory = ({
 
     // Declaration of local refrences
     const mousedownId = useRef<number>();
+    const startYRef = useRef<number>(0);
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
     // ***** Usage of hooks ***** //
@@ -87,6 +88,7 @@ export const ReactStory = ({
     // Function to toggle overlay visibility (on mouse down event)
     const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
+        startYRef.current = (e as React.TouchEvent).touches[0].clientY;
         mousedownId.current = setTimeout(() => {
             setPause(true);
         }, 200);
@@ -96,7 +98,14 @@ export const ReactStory = ({
     const mouseUpAction = (action: 'prev' | 'next') => (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         mousedownId.current && clearTimeout(mousedownId.current);
-        if (pause) {
+
+        const endY = (e as React.TouchEvent).changedTouches[0].clientY;
+        const deltaY = startYRef.current - endY;
+        const minSwipeDistance = 50;
+
+        if (deltaY > minSwipeDistance) {
+            stories[currentStory]?.seeMore?.action()
+        } else if (pause) {
             setPause(false);
         } else {
             if (action == 'prev') prevStory();
