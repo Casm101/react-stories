@@ -4,6 +4,7 @@ import { useEffect } from "react";
 // Type imports
 import { TStoryCustom, TStoryMedia } from "../../types";
 
+// Content renderer props type declaration
 type ContentRendererProps = (TStoryMedia | TStoryCustom) & {
     isPaused: boolean,
     isMuted: boolean,
@@ -11,6 +12,7 @@ type ContentRendererProps = (TStoryMedia | TStoryCustom) & {
 };
 
 
+// Content renderer component declaration
 export const ContentRenderer: React.FC<ContentRendererProps> = ({
     type = 'image',
     isPaused,
@@ -24,6 +26,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
         if (isPaused && videoRef && videoRef.current) videoRef.current.pause();
         if (!isPaused && videoRef && videoRef.current) videoRef.current.play();
     }, [isPaused]);
+
 
     // Render image type
     if (type === 'image') {

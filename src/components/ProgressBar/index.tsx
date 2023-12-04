@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+
+// Style imports
 import './styles.scss';
 
+// Progress bar props interface declaration
 interface ProgressBarProps {
     isCompleted?: boolean;
     isActive?: boolean;
@@ -10,6 +13,8 @@ interface ProgressBarProps {
     customDuration?: number;
 }
 
+
+// Progress bar component declaration
 export const ProgressBar = ({
     isCompleted,
     isActive,
@@ -19,6 +24,7 @@ export const ProgressBar = ({
     customDuration
 }: ProgressBarProps) => {
 
+    // Declaration of local states
     const [progress, setProgress] = useState(0);
     const finalDuration = customDuration || duration;
 
@@ -29,9 +35,13 @@ export const ProgressBar = ({
         activeClass = isActive ? 'active' : null;
     }, 50);
 
+
+    // Manage timer functionality
     useEffect(() => {
 
         let interval: number;
+
+        // Run if active and not paused
         if (isActive && !isPaused) {
             interval = setInterval(() => {
                 setProgress(oldProgress => {
@@ -44,6 +54,7 @@ export const ProgressBar = ({
             }, 50);
         }
 
+        // Dissable if not active
         if (!isActive) setProgress(0);
 
         return () => clearInterval(interval);

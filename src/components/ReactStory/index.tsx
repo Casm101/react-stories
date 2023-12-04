@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Component imports
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { ContentRenderer } from '../ContentRenderer';
 import { ProgressBar } from '../ProgressBar';
 
@@ -16,6 +16,7 @@ import useVideoPreloader from '../../hooks/useVideoPreloader';
 import { TStoryMedia, TStoryCustom, TSeeMoreCustom } from '../../types';
 
 
+// ReactStory component props type declaration
 type ReactStoryProps = {
     stories: (TStoryMedia | TStoryCustom)[];
     height?: string;
@@ -30,6 +31,7 @@ type ReactStoryProps = {
 };
 
 
+// ReactStory component declaration 
 export const ReactStory = ({
     stories,
     height,
@@ -54,25 +56,11 @@ export const ReactStory = ({
     const mousedownId = useRef<number>();
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
+    // ***** Usage of hooks ***** //
+    // Manage asset preloading
+    useImagePreloader(imagesPreload);
+    useVideoPreloader(videosPreload);
 
-    // Retrieve current video duration
-    useEffect(() => {
-
-        const handleVideoLoaded = () => {
-            if (stories[currentStory].type === 'video' && videoRef.current) setVideoDuration(videoRef.current.duration * 1000);
-        };
-
-        const videoElement = videoRef.current;
-        if (videoElement) {
-            videoElement.addEventListener('loadedmetadata', handleVideoLoaded);
-        }
-
-        return () => {
-            if (videoElement) {
-                videoElement.removeEventListener('loadedmetadata', handleVideoLoaded);
-            }
-        };
-    }, [currentStory]);
 
     // Function to toggle muted state
     const toggleMuted = () => {
@@ -95,22 +83,6 @@ export const ReactStory = ({
         if (nextStoryIndex < numStories) setCurrrentStory(nextStoryIndex);
         else if (loop) setCurrrentStory(0);
     }, [currentStory, numStories, loop]);
-
-    useEffect(() => {
-        setStoryTimers(
-            Array.from({ length: numStories }).map((_, index) => (
-                <ProgressBar
-                    isCompleted={currentStory > index}
-                    isActive={currentStory === index}
-                    isPaused={pause}
-                    skipCallback={nextStory}
-                    duration={defaultDuration}
-                    customDuration={stories[index].type === 'video' ? videoDuration : stories[index].storyDuration}
-                    key={index}
-                />
-            ))
-        );
-    }, [currentStory, numStories, pause, stories, nextStory, defaultDuration, videoDuration]);
 
     // Function to toggle overlay visibility (on mouse down event)
     const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
@@ -147,19 +119,10 @@ export const ReactStory = ({
         if (e.key === 'm') toggleMuted();
     }, [prevStory, nextStory]);
 
-    // Keyboard event listeners
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyboardEvent);
 
-        return () => {
-            window.removeEventListener('keydown', handleKeyboardEvent);
-        }
-    }, [handleKeyboardEvent]);
-
-    // Manage asset preloading
-    useImagePreloader(imagesPreload);
-    useVideoPreloader(videosPreload);
     useEffect(() => {
+
+        // Set content to be reloaded
         if (preloadedAssets > 0) {
             setImagesPreload(stories.slice(currentStory, currentStory + preloadedAssets).map(story => {
                 if (story.type === 'image') return story.src;
@@ -170,7 +133,49 @@ export const ReactStory = ({
                 return '';
             }));
         }
+
+        // Retrieve current video duration
+        const handleVideoLoaded = () => {
+            if (stories[currentStory].type === 'video' && videoRef.current) setVideoDuration(videoRef.current.duration * 1000);
+        };
+
+        const videoElement = videoRef.current;
+        if (videoElement) {
+            videoElement.addEventListener('loadedmetadata', handleVideoLoaded);
+        }
+
+        return () => {
+            if (videoElement) {
+                videoElement.removeEventListener('loadedmetadata', handleVideoLoaded);
+            }
+        };
     }, [currentStory]);
+
+    // Creation of story timers
+    useEffect(() => {
+        setStoryTimers(
+            Array.from({ length: numStories }).map((_, index) => (
+                <ProgressBar
+                    isCompleted={currentStory > index}
+                    isActive={currentStory === index}
+                    isPaused={pause}
+                    skipCallback={nextStory}
+                    duration={defaultDuration}
+                    customDuration={stories[index].type === 'video' ? videoDuration : stories[index].storyDuration}
+                    key={index}
+                />
+            ))
+        );
+    }, [currentStory, numStories, pause, stories, nextStory, defaultDuration, videoDuration]);
+
+    // Keyboard event listeners
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyboardEvent);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyboardEvent);
+        }
+    }, [handleKeyboardEvent]);
 
     return (
         <div
