@@ -99,12 +99,11 @@ export const ReactStory = ({
         e.preventDefault();
         mousedownId.current && clearTimeout(mousedownId.current);
 
-        const endY = (e as React.TouchEvent).changedTouches[0].clientY;
-        const deltaY = startYRef.current - endY;
-        const minSwipeDistance = 50;
-
-        if (deltaY > minSwipeDistance) {
-            stories[currentStory]?.seeMore?.action()
+        if ((e as React.TouchEvent).changedTouches) {
+            const endY = (e as React.TouchEvent).changedTouches[0].clientY;
+            const deltaY = startYRef.current - endY;
+            const minSwipeDistance = 50;
+            if (deltaY > minSwipeDistance) stories[currentStory]?.seeMore?.action()
         } else if (pause) {
             setPause(false);
         } else {
