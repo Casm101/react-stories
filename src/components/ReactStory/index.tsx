@@ -104,7 +104,9 @@ export const ReactStory = ({
             const deltaY = startYRef.current - endY;
             const minSwipeDistance = 50;
             if (deltaY > minSwipeDistance) stories[currentStory]?.seeMore?.action()
-        } else if (pause) {
+        }
+
+        if (pause) {
             setPause(false);
         } else {
             if (action == 'prev') prevStory();
