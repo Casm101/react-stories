@@ -49,7 +49,7 @@ const stories = [
 ];
 
 const MyComponent = () => (
-  <StoryViewer stories={stories} />
+  <ReactStories stories={stories} />
 );
 
 export default MyComponent;
