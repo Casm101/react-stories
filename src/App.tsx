@@ -160,7 +160,7 @@ function App() {
 
           <p>Get started now!</p>
           <code>
-            npm i --save react-stories
+            npm i --save @casm101/react-stories
           </code>
 
           <div style={{ display: 'flex', gap: '4rem' }}>
