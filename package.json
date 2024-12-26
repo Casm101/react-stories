@@ -2,7 +2,7 @@
   "name": "@casm101/react-stories",
   "description": "Simple and dynamic Metainspired story component in React!",
   "private": false,
-  "version": "0.0.4-beta",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -13,14 +13,12 @@
     "publish:public": "npm publish --access public"
   },
   "dependencies": {
-    "path": "^0.12.7",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sass": "^1.69.5"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -29,6 +27,6 @@
     "eslint-plugin-react-refresh": "^0.4.4",
     "gh-pages": "^6.1.0",
     "typescript": "^5.2.2",
-    "vite": "^5.0.0"
+    "vite": "^6.0.6"
   }
 }
