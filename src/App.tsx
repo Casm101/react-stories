@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactStory } from '.';
 import './global.css';
 
@@ -195,10 +194,12 @@ function App() {
                 <p>Click / Tap left for previous</p>
                 <p>Click / Tap right for next</p>
                 <p>Click / Tap and hold to pause</p>
+                <p>Click / Tap and hold edges to speed up</p>
                 <br />
                 <p>Arrows on keyboard also work</p>
                 <p>Space to toggle pause</p>
                 <p>M to toggle mute</p>
+                <p>S to toggle speed up</p>
               </div>
             </div>
 

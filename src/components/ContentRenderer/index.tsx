@@ -8,6 +8,7 @@ import { TStoryCustom, TStoryMedia } from '../../types';
 type ContentRendererProps = (TStoryMedia | TStoryCustom) & {
   isPaused: boolean;
   isMuted: boolean;
+  isSpedUp: boolean;
   videoRef: React.RefObject<HTMLVideoElement | null>;
 };
 
@@ -16,6 +17,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
   type = 'image',
   isPaused,
   isMuted,
+  isSpedUp,
   videoRef,
   ...props
 }) => {
@@ -24,6 +26,12 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({
     if (isPaused && videoRef && videoRef.current) videoRef.current.pause();
     if (!isPaused && videoRef && videoRef.current) videoRef.current.play();
   }, [isPaused]);
+
+  // Feature to handle video speed
+  useEffect(() => {
+    if (isSpedUp && videoRef && videoRef.current) videoRef.current.playbackRate = 2;
+    if (!isSpedUp && videoRef && videoRef.current) videoRef.current.playbackRate = 1;
+  }, [isSpedUp]);
 
   // Render image type
   if (type === 'image') {

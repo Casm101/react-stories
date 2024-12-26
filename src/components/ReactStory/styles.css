@@ -162,6 +162,7 @@
 
   /* Controls styling */
   .story-controls {
+    position: relative;
     display: flex;
     flex-direction: row;
 
@@ -176,6 +177,39 @@
       width: 50%;
       cursor: pointer;
       z-index: 95;
+
+      user-drag: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .speed-up-story {
+      position: absolute;
+
+      height: 100%;
+      width: 10%;
+      cursor: pointer;
+      z-index: 97;
+
+      background: #ff68b444;
+
+      &.left {
+        left: 0;
+      }
+
+      &.right {
+        right: 0;
+      }
+
+      user-drag: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
     }
   }
 }
