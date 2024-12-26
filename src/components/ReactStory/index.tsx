@@ -42,6 +42,8 @@ export const ReactStory = ({
   // Declaration of local states
   const [pause, setPause] = useState<boolean>(false);
   const [isMuted, setMuted] = useState<boolean>(false);
+  const [isSpedUp, setSpedUp] = useState<boolean>(false);
+  const [isHudHidden, setHudHidden] = useState<boolean>(false);
   const [storyTimers, setStoryTimers] = useState<React.ReactNode[]>([]);
   const [currentStory, setCurrrentStory] = useState<number>(0);
   const [imagesPreload, setImagesPreload] = useState<string[]>([]);
@@ -67,6 +69,13 @@ export const ReactStory = ({
   // Function to toggle paused state
   const togglePaused = () => {
     setPause(current => !current);
+    setHudHidden(current => !current);
+  };
+
+  // Funtion to toggle sped up state
+  const toggleSpedUp = () => {
+    setSpedUp(current => !current);
+    setHudHidden(current => !current);
   };
 
   // Function to fetch previous story
@@ -81,12 +90,18 @@ export const ReactStory = ({
     else if (loop) setCurrrentStory(0);
   }, [currentStory, numStories, loop]);
 
-  // Function to toggle overlay visibility (on mouse down event)
+  // Function to toggle pause or video speed (on mouse down event)
   const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
+    const speedUpStory = (e.target as HTMLElement).closest('.speed-up-story');
+
+    console.log('speedUpStory: ', speedUpStory);
+
     startYRef.current = (e as React.TouchEvent).touches[0].clientY;
     mousedownId.current = setTimeout(() => {
-      setPause(true);
+      if (speedUpStory) setSpedUp(true);
+      if (!speedUpStory) setPause(true);
+      setHudHidden(true);
     }, 200);
   };
 
@@ -103,8 +118,10 @@ export const ReactStory = ({
         if (deltaY > minSwipeDistance) stories[currentStory]?.seeMore?.action();
       }
 
-      if (pause) {
+      if (isHudHidden) {
         setPause(false);
+        setSpedUp(false);
+        setHudHidden(false);
       } else {
         if (action == 'prev') prevStory();
         if (action == 'next') nextStory();
@@ -117,14 +134,17 @@ export const ReactStory = ({
       if (e.key === 'ArrowLeft') {
         prevStory();
         setPause(false);
+        setHudHidden(false);
       }
       if (e.key === 'ArrowRight') {
         nextStory();
         setPause(false);
+        setHudHidden(false);
       }
       if (e.key === 'ArrowUp') stories[currentStory]?.seeMore?.action();
       if (e.code === 'Space') togglePaused();
       if (e.key === 'm') toggleMuted();
+      if (e.key === 's') toggleSpedUp();
     },
     [prevStory, nextStory]
   );
@@ -213,13 +233,14 @@ export const ReactStory = ({
         <ContentRenderer
           isPaused={pause}
           isMuted={isMuted}
+          isSpedUp={isSpedUp}
           videoRef={videoRef}
           {...stories[currentStory]}
         />
       </div>
 
       {/* Story header container */}
-      <div className={['story-header', pause ? 'hidden' : null].join(' ')}>
+      <div className={['story-header', isHudHidden ? 'hidden' : null].join(' ')}>
         {/* Story timer container */}
         <div className="story-timer-container">{storyTimers}</div>
 
@@ -311,6 +332,20 @@ export const ReactStory = ({
         />
         <div
           className="next-story"
+          onTouchStart={mouseDownAction}
+          onTouchEnd={mouseUpAction('next')}
+          onMouseDown={mouseDownAction}
+          onMouseUp={mouseUpAction('next')}
+        />
+        <div
+          className="speed-up-story left"
+          onTouchStart={mouseDownAction}
+          onTouchEnd={mouseUpAction('prev')}
+          onMouseDown={mouseDownAction}
+          onMouseUp={mouseUpAction('prev')}
+        />
+        <div
+          className="speed-up-story right"
           onTouchStart={mouseDownAction}
           onTouchEnd={mouseUpAction('next')}
           onMouseDown={mouseDownAction}
