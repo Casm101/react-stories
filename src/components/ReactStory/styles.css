@@ -194,8 +194,6 @@
       cursor: pointer;
       z-index: 97;
 
-      background: #ff68b444;
-
       &.left {
         left: 0;
       }
