@@ -8,7 +8,7 @@ import { TStoryCustom, TStoryMedia } from '../../types';
 type ContentRendererProps = (TStoryMedia | TStoryCustom) & {
   isPaused: boolean;
   isMuted: boolean;
-  videoRef: React.RefObject<HTMLVideoElement> | null;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
 };
 
 // Content renderer component declaration
