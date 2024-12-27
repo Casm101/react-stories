@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
 // Style imports
@@ -43,9 +44,6 @@ export const ProgressBar = ({
       interval = setInterval(() => {
         setProgress(oldProgress => {
           const newProgress = oldProgress + (50 / finalDuration) * 100;
-          if (newProgress >= 100) {
-            skipCallback();
-          }
           return newProgress;
         });
       }, 50);
@@ -55,7 +53,11 @@ export const ProgressBar = ({
     if (!isActive) setProgress(0);
 
     return () => clearInterval(interval);
-  }, [isActive, duration, isPaused, progress, skipCallback, finalDuration]);
+  }, [isActive, duration, isPaused, finalDuration]);
+
+  useEffect(() => {
+    if (progress > 100) skipCallback();
+  }, [progress]);
 
   return (
     <div className="progressbar-styled">

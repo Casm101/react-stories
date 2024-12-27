@@ -49,6 +49,8 @@ export const ReactStory = ({
   const [imagesPreload, setImagesPreload] = useState<string[]>([]);
   const [videosPreload, setVideosPreload] = useState<string[]>([]);
   const [videoDuration, setVideoDuration] = useState<number>(0);
+  const currentStoryType: TStoryMedia['type'] | TStoryCustom['type'] =
+    stories[currentStory].type;
   const numStories = stories?.length;
 
   // Declaration of local refrences
@@ -92,14 +94,11 @@ export const ReactStory = ({
 
   // Function to toggle pause or video speed (on mouse down event)
   const mouseDownAction = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
+    e.cancelable && e.preventDefault();
     const speedUpStory = (e.target as HTMLElement).closest('.speed-up-story');
-
-    console.log('speedUpStory: ', speedUpStory);
-
-    startYRef.current = (e as React.TouchEvent).touches[0].clientY;
+    if (e instanceof TouchEvent) startYRef.current = e.touches[0].clientY;
     mousedownId.current = setTimeout(() => {
-      if (speedUpStory) setSpedUp(true);
+      if (speedUpStory && currentStoryType) setSpedUp(true);
       if (!speedUpStory) setPause(true);
       setHudHidden(true);
     }, 200);
@@ -108,7 +107,7 @@ export const ReactStory = ({
   // Function to toggle overlay visibility (on mouse up event)
   const mouseUpAction =
     (action: 'prev' | 'next') => (e: React.MouseEvent | React.TouchEvent) => {
-      e.preventDefault();
+      e.cancelable && e.preventDefault();
       mousedownId.current && clearTimeout(mousedownId.current);
 
       if ((e as React.TouchEvent).changedTouches) {
@@ -329,6 +328,7 @@ export const ReactStory = ({
           onTouchEnd={mouseUpAction('prev')}
           onMouseDown={mouseDownAction}
           onMouseUp={mouseUpAction('prev')}
+          onContextMenu={e => e.preventDefault()}
         />
         <div
           className="next-story"
@@ -336,6 +336,7 @@ export const ReactStory = ({
           onTouchEnd={mouseUpAction('next')}
           onMouseDown={mouseDownAction}
           onMouseUp={mouseUpAction('next')}
+          onContextMenu={e => e.preventDefault()}
         />
         <div
           className="speed-up-story left"
@@ -343,6 +344,7 @@ export const ReactStory = ({
           onTouchEnd={mouseUpAction('prev')}
           onMouseDown={mouseDownAction}
           onMouseUp={mouseUpAction('prev')}
+          onContextMenu={e => e.preventDefault()}
         />
         <div
           className="speed-up-story right"
@@ -350,6 +352,7 @@ export const ReactStory = ({
           onTouchEnd={mouseUpAction('next')}
           onMouseDown={mouseDownAction}
           onMouseUp={mouseUpAction('next')}
+          onContextMenu={e => e.preventDefault()}
         />
       </div>
     </div>
